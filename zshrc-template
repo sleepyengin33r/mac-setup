@@ -1,0 +1,90 @@
+# ============================================================================
+# Zsh Configuration for Mac Development
+# Part of: https://github.com/mango-engineer/mac-setup
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# Powerlevel10k Instant Prompt - MUST BE AT THE TOP
+# Enables fast prompt rendering before full zsh initialization
+# ----------------------------------------------------------------------------
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# ----------------------------------------------------------------------------
+# PATH Configuration
+# Add Homebrew binaries to PATH (required for all brew-installed tools)
+# ----------------------------------------------------------------------------
+export PATH="/opt/homebrew/bin:$PATH"
+
+# ----------------------------------------------------------------------------
+# Oh My Zsh Setup
+# Framework for managing Zsh configuration, themes, and plugins
+# ----------------------------------------------------------------------------
+export ZSH="$HOME/.oh-my-zsh"
+
+# Theme: Powerlevel10k (fast, customizable, beautiful)
+# To configure: run `p10k configure`
+# To use Spaceship instead: ZSH_THEME="spaceship"
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+# ----------------------------------------------------------------------------
+# Plugins
+# Fast plugins only - optimized for quick startup (<50ms total)
+# ----------------------------------------------------------------------------
+plugins=(
+  git                      # Git aliases and functions (100+ shortcuts)
+  zsh-autosuggestions      # Fish-like command suggestions (Homebrew)
+  zsh-syntax-highlighting  # Command syntax highlighting (Homebrew)
+)
+
+# Load Oh My Zsh
+source $ZSH/oh-my-zsh.sh
+
+# ----------------------------------------------------------------------------
+# Powerlevel10k Theme Configuration
+# To customize: run `p10k configure` or edit ~/.p10k.zsh
+# ----------------------------------------------------------------------------
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# ----------------------------------------------------------------------------
+# Zsh Autosuggestions
+# Suggests commands as you type based on history
+# ----------------------------------------------------------------------------
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Autosuggestion customization
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=8"                  # Soft gray - soothing and easy on eyes
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="20"                    # Only suggest for short commands
+ZSH_AUTOSUGGEST_USE_ASYNC=1                             # Non-blocking suggestions
+
+# ----------------------------------------------------------------------------
+# Zsh Syntax Highlighting
+# Highlights commands in green (valid) or red (invalid) as you type
+# MUST be loaded AFTER autosuggestions
+# ----------------------------------------------------------------------------
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# ----------------------------------------------------------------------------
+# NVM (Node Version Manager)
+# Manages multiple Node.js versions
+# Usage: nvm install 18, nvm use 18, nvm alias default 18
+# ----------------------------------------------------------------------------
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+
+# ============================================================================
+# Personal Customizations
+# Add your custom aliases, functions, and configurations below
+# ============================================================================
+
+# Example aliases (uncomment to use):
+# alias zshreload="source ~/.zshrc"
+# alias brewup="brew update && brew upgrade && brew cleanup"
+# alias ll="ls -lah"
+# alias gs="git status"
+# alias py="python3"
+
+# Example functions (uncomment to use):
+# mkcd() { mkdir -p "$1" && cd "$1"; }  # Create dir and cd into it

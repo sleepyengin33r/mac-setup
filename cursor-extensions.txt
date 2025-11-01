@@ -1,0 +1,8 @@
+alefragnani.project-manager
+anysphere.cursorpyright
+dbaeumer.vscode-eslint
+eamodio.gitlens
+esbenp.prettier-vscode
+github.vscode-github-actions
+ms-azuretools.vscode-docker
+pflannery.vscode-versionlens

@@ -102,8 +102,6 @@ print_section "3. Homebrew Taps"
 
 TAPS=(
     "romkatv/powerlevel10k"
-    "homebrew/cask-fonts"
-    "postgres-unofficial/postgres-unofficial"
 )
 
 for tap in "${TAPS[@]}"; do
@@ -197,9 +195,19 @@ for cask in "${CASKS[@]}"; do
 done
 
 ###############################################################################
-# 6. Install Python via uv
+# 6. PostgreSQL Installation
 ###############################################################################
-print_section "6. Python Installation (via uv)"
+print_section "6. PostgreSQL Installation"
+
+print_success "Postgres.app will be installed via the casks section"
+print_info "Postgres.app provides a GUI for managing PostgreSQL databases"
+print_info "Website: https://postgresapp.com/"
+print_info "pgAdmin4 is also included for database management"
+
+###############################################################################
+# 7. Install Python via uv
+###############################################################################
+print_section "7. Python Installation (via uv)"
 
 if command -v uv &> /dev/null; then
     print_success "uv is installed"
@@ -227,9 +235,9 @@ else
 fi
 
 ###############################################################################
-# 7. Configure Cursor Extensions and Settings
+# 8. Configure Cursor Extensions and Settings
 ###############################################################################
-print_section "7. Cursor Extensions and Settings"
+print_section "8. Cursor Extensions and Settings"
 
 # Path to extension list and settings files in the repo
 CURSOR_EXTENSIONS_FILE="$SCRIPT_DIR/cursor-extensions.txt"
@@ -326,9 +334,9 @@ else
 fi
 
 ###############################################################################
-# 8. Install Oh My Zsh & Themes
+# 9. Install Oh My Zsh & Themes
 ###############################################################################
-print_section "8. Oh My Zsh & Themes"
+print_section "9. Oh My Zsh & Themes"
 
 if [ -d "$HOME/.oh-my-zsh" ]; then
     print_success "Oh My Zsh already installed"
@@ -394,9 +402,9 @@ else
 fi
 
 ###############################################################################
-# 9. Configure .zshrc (Standardized Configuration)
+# 10. Configure .zshrc (Standardized Configuration)
 ###############################################################################
-print_section "9. Configure .zshrc"
+print_section "10. Configure .zshrc"
 
 # Path to template in the repo
 ZSHRC_TEMPLATE="$SCRIPT_DIR/zshrc-template"
@@ -458,9 +466,9 @@ else
 fi
 
 ###############################################################################
-# 10. Configure NVM (Node Version Manager)
+# 11. Configure NVM (Node Version Manager)
 ###############################################################################
-print_section "10. Node Version Manager (NVM)"
+print_section "11. Node Version Manager (NVM)"
 
 # Create NVM directory
 if [ ! -d "$HOME/.nvm" ]; then
@@ -497,9 +505,9 @@ else
 fi
 
 ###############################################################################
-# 11. Configure Git
+# 12. Configure Git
 ###############################################################################
-print_section "11. Git Configuration"
+print_section "12. Git Configuration"
 
 print_info "Current Git configuration:"
 git config --global user.name 2>/dev/null || print_warning "Git user.name not set"
@@ -511,9 +519,9 @@ echo "  git config --global user.name \"Your Name\""
 echo "  git config --global user.email \"your.email@example.com\""
 
 ###############################################################################
-# 12. macOS System Preferences
+# 13. macOS System Preferences
 ###############################################################################
-print_section "12. macOS System Preferences"
+print_section "13. macOS System Preferences"
 
 print_info "Configuring macOS system preferences..."
 
@@ -539,9 +547,9 @@ print_success "macOS preferences configured"
 print_warning "Some changes require restarting Finder: killall Finder"
 
 ###############################################################################
-# 13. Cleanup and Final Steps
+# 14. Cleanup and Final Steps
 ###############################################################################
-print_section "13. Cleanup"
+print_section "14. Cleanup"
 
 print_info "Running Homebrew cleanup..."
 if brew cleanup 2>&1; then

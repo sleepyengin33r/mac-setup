@@ -36,7 +36,7 @@ cask "visual-studio-code"
 # Development Tools
 cask "iterm2"
 cask "pgadmin4"
-cask "postgres-unofficial"
+cask "postgres-unofficial"  # Postgres.app (GUI for PostgreSQL)
 cask "postman"
 
 # Productivity

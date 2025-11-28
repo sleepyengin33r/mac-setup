@@ -173,7 +173,6 @@ CASKS=(
     "notion"
     "pgadmin4"
     "postgres-unofficial"
-    "raycast"
     "rectangle"
     "tableplus"
     "tor-browser"
@@ -238,9 +237,45 @@ else
 fi
 
 ###############################################################################
-# 8. Configure Cursor Extensions and Settings
+# 8. Install Node.js via NVM
 ###############################################################################
-print_section "8. Cursor Extensions and Settings"
+print_section "8. Node.js Installation (via NVM)"
+
+# Create NVM directory
+if [ ! -d "$HOME/.nvm" ]; then
+    mkdir -p "$HOME/.nvm" 2>&1 && print_success "NVM directory created" || print_warning "Failed to create NVM directory"
+else
+    print_success "NVM directory already exists"
+fi
+
+# Source NVM for current session
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh" 2>/dev/null
+
+# Install latest LTS Node.js version
+if command -v nvm &> /dev/null; then
+    # Check if Node.js is already installed
+    if nvm ls 2>/dev/null | grep -q "node\|v[0-9]"; then
+        print_success "Node.js already installed via nvm"
+        CURRENT_NODE=$(nvm current 2>/dev/null)
+        print_info "Current Node.js version: $CURRENT_NODE"
+        print_info "To install another version: nvm install --lts"
+    else
+        print_info "Installing Node.js LTS version..."
+        if nvm install --lts 2>&1 && nvm use --lts 2>&1; then
+            print_success "Node.js LTS installed"
+        else
+            print_warning "Failed to install Node.js. Run 'nvm install --lts' manually after restarting terminal."
+        fi
+    fi
+else
+    print_warning "NVM not available in current session. Restart terminal and run: nvm install --lts"
+fi
+
+###############################################################################
+# 9. Configure Cursor Extensions and Settings
+###############################################################################
+print_section "9. Cursor Extensions and Settings"
 
 # Path to extension list and settings files in the repo
 CURSOR_EXTENSIONS_FILE="$SCRIPT_DIR/cursor-extensions.txt"
@@ -337,9 +372,9 @@ else
 fi
 
 ###############################################################################
-# 9. Install Oh My Zsh & Themes
+# 10. Install Oh My Zsh & Themes
 ###############################################################################
-print_section "9. Oh My Zsh & Themes"
+print_section "10. Oh My Zsh & Themes"
 
 if [ -d "$HOME/.oh-my-zsh" ]; then
     print_success "Oh My Zsh already installed"
@@ -405,9 +440,9 @@ else
 fi
 
 ###############################################################################
-# 10. Configure .zshrc (Standardized Configuration)
+# 11. Configure .zshrc (Standardized Configuration)
 ###############################################################################
-print_section "10. Configure .zshrc"
+print_section "11. Configure .zshrc"
 
 # Path to template in the repo
 ZSHRC_TEMPLATE="$SCRIPT_DIR/zshrc-template"
@@ -466,45 +501,6 @@ if [ -f "$P10K_TEMPLATE" ]; then
     fi
 else
     print_info "No p10k.zsh template found in repository (optional)"
-fi
-
-###############################################################################
-# 11. Configure NVM (Node Version Manager)
-###############################################################################
-print_section "11. Node Version Manager (NVM)"
-
-# Create NVM directory
-if [ ! -d "$HOME/.nvm" ]; then
-    mkdir -p "$HOME/.nvm" 2>&1 && print_success "NVM directory created" || print_warning "Failed to create NVM directory"
-else
-    print_success "NVM directory already exists"
-fi
-
-# NVM is already configured in zshrc-template, no need to add it again
-print_success "NVM configured in .zshrc (via template)"
-
-# Source NVM for current session
-export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh" 2>/dev/null
-
-# Install latest LTS Node.js version
-if command -v nvm &> /dev/null; then
-    # Check if Node.js is already installed
-    if nvm ls 2>/dev/null | grep -q "node\|v[0-9]"; then
-        print_success "Node.js already installed via nvm"
-        CURRENT_NODE=$(nvm current 2>/dev/null)
-        print_info "Current Node.js version: $CURRENT_NODE"
-        print_info "To install another version: nvm install --lts"
-    else
-        print_info "Installing Node.js LTS version..."
-        if nvm install --lts 2>&1 && nvm use --lts 2>&1; then
-            print_success "Node.js LTS installed"
-        else
-            print_warning "Failed to install Node.js. Run 'nvm install --lts' manually after restarting terminal."
-        fi
-    fi
-else
-    print_warning "NVM not available in current session. Restart terminal and run: nvm install --lts"
 fi
 
 ###############################################################################

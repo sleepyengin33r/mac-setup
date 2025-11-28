@@ -14,7 +14,7 @@ Automated setup script for macOS development environment with standardized confi
 ### GUI Applications
 - **Browsers:** Chrome, Tor Browser
 - **Editors:** Cursor, Visual Studio Code
-- **Productivity:** Caffeine, Flow (Pomodoro timer), Flux, Notion, Raycast, Rectangle
+- **Productivity:** Caffeine, Flow (Pomodoro timer), Flux, Notion, Rectangle
 - **Development:** Docker, Insomnia (API client), iTerm2, pgAdmin 4, Postgres.app, TablePlus
 - **Font:** MesloLGS NF (Nerd Font)
 - **Communication:** Discord

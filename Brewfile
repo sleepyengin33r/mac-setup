@@ -45,7 +45,6 @@ cask "caffeine"
 cask "flow"      # Pomodoro timer
 cask "flux"
 cask "notion"
-cask "raycast"   # Spotlight replacement
 cask "rectangle"
 
 # Communication

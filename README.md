@@ -19,7 +19,7 @@ chmod +x setup.sh
 
 ## 📦 Packages
 
-**🔧 CLI:** git, nvm, uv, wget, yarn, zsh-autosuggestions, zsh-syntax-highlighting
+**🔧 CLI:** git, nvm, uv, wget, yarn, zsh-autosuggestions, zsh-syntax-highlighting, commitizen
 
 **🖥️ Apps:** Chrome, Tor Browser, Cursor, VS Code, Docker, Ghostty, Insomnia, Postgres.app, TablePlus, Caffeine, Flux, Notion, Rectangle, Discord
 
@@ -52,4 +52,7 @@ uv python install 3.12
 
 # Node.js
 nvm install --lts
+
+# Commit (with Commitizen)
+cz
 ```

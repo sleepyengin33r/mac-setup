@@ -101,6 +101,7 @@ fi
 print_section "3. Homebrew Formulae (Command Line Tools)"
 
 FORMULAE=(
+    "commitizen"
     "git"
     "nvm"
     "uv"
@@ -239,6 +240,18 @@ if command -v nvm &> /dev/null; then
     fi
 else
     print_warning "NVM not available in current session. Restart terminal and run: nvm install --lts"
+fi
+
+###############################################################################
+# 7b. Commitizen Setup
+###############################################################################
+print_section "7b. Commitizen Setup"
+
+if command -v cz &> /dev/null; then
+    print_success "Commitizen installed via Homebrew"
+    print_info "Usage: Run 'cz' instead of 'git commit'"
+else
+    print_warning "Commitizen not found. It will be installed via Brewfile."
 fi
 
 ###############################################################################

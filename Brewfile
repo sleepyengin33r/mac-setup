@@ -12,6 +12,7 @@ brew "wget"
 brew "yarn"
 brew "zsh-autosuggestions"    # Fish-like autosuggestions for zsh
 brew "zsh-syntax-highlighting" # Syntax highlighting for zsh commands
+brew "commitizen"              # Conventional commit messages
 
 # ============================================================================
 # GUI Applications

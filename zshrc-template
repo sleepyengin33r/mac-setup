@@ -105,15 +105,18 @@ fd() {
 # =============================================================================
 # Git & Commitizen Aliases
 # =============================================================================
-# Quick commits with Commitizen (usage: gcf "message")
-alias gcfix='cz c -t fix -s'        # fix: bug fix
-alias gcfeat='cz c -t feat -s'      # feat: new feature
-alias gcdocs='cz c -t docs -s'      # docs: documentation changes
-alias gcstyle='cz c -t style -s'    # style: formatting, no code change
-alias gcrefactor='cz c -t refactor -s'  # refactor: code refactor
-alias gcperf='cz c -t perf -s'      # perf: performance improvement
-alias gctest='cz c -t test -s'      # test: adding tests
-alias gcbuild='cz c -t build -s'    # build: build system changes
-alias gcci='cz c -t ci -s'          # ci: CI config changes
-alias gcchore='cz c -t chore -s'    # chore: maintenance
+# Interactive commit with Commitizen
+alias cz='cz commit'
+
+# Quick conventional commits (usage: gcfeat "message")
+gcfix() { git commit -m "fix: $1"; }
+gcfeat() { git commit -m "feat: $1"; }
+gcdocs() { git commit -m "docs: $1"; }
+gcstyle() { git commit -m "style: $1"; }
+gcrefactor() { git commit -m "refactor: $1"; }
+gcperf() { git commit -m "perf: $1"; }
+gctest() { git commit -m "test: $1"; }
+gcbuild() { git commit -m "build: $1"; }
+gcci() { git commit -m "ci: $1"; }
+gcchore() { git commit -m "chore: $1"; }
 

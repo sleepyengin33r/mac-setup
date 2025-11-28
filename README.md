@@ -15,13 +15,14 @@ Automated setup script for macOS development environment with standardized confi
 - **Browsers:** Chrome, Tor Browser
 - **Editors:** Cursor, Visual Studio Code
 - **Productivity:** Caffeine, Flow (Pomodoro timer), Flux, Notion, Rectangle
-- **Development:** Docker, Insomnia (API client), iTerm2, pgAdmin 4, Postgres.app, TablePlus
+- **Development:** Docker, Ghostty, Insomnia (API client), iTerm2, pgAdmin 4, Postgres.app, TablePlus
 - **Font:** MesloLGS NF (Nerd Font)
 - **Communication:** Discord
 
 ### Configuration
 - Oh My Zsh with standardized `.zshrc` template
 - Powerlevel10k config template (`p10k.zsh`) enforced to `~/.p10k.zsh` (with backup)
+- Ghostty terminal config (`ghostty-config`) with Dracula theme
 - NVM for Node.js version management
 - Cursor extensions and settings backup/restore
 - Developer-friendly macOS system settings

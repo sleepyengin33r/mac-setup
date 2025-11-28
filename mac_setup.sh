@@ -167,6 +167,7 @@ CASKS=(
     "flow"
     "flux"
     "font-meslo-lg-nerd-font"
+    "ghostty"
     "google-chrome"
     "insomnia"
     "iterm2"
@@ -372,9 +373,58 @@ else
 fi
 
 ###############################################################################
-# 10. Install Oh My Zsh & Themes
+# 10. Configure Ghostty Terminal
 ###############################################################################
-print_section "10. Oh My Zsh & Themes"
+print_section "10. Ghostty Terminal Configuration"
+
+GHOSTTY_CONFIG_FILE="$SCRIPT_DIR/ghostty-config"
+GHOSTTY_CONFIG_DIR="$HOME/.config/ghostty"
+
+# Check if Ghostty is installed
+if [ -d "/Applications/Ghostty.app" ]; then
+    print_success "Ghostty is installed"
+    
+    # Restore config
+    if [ -f "$GHOSTTY_CONFIG_FILE" ]; then
+        # Create Ghostty config directory if it doesn't exist
+        mkdir -p "$GHOSTTY_CONFIG_DIR" 2>/dev/null
+        
+        # Backup existing config if it exists
+        if [ -f "$GHOSTTY_CONFIG_DIR/config" ]; then
+            if cmp -s "$GHOSTTY_CONFIG_FILE" "$GHOSTTY_CONFIG_DIR/config" 2>/dev/null; then
+                print_success "Ghostty config already matches template"
+            else
+                BACKUP_FILE="$GHOSTTY_CONFIG_DIR/config.backup.$(date +%Y%m%d_%H%M%S)"
+                print_info "Backing up existing Ghostty config to: ${BACKUP_FILE##*/}"
+                cp "$GHOSTTY_CONFIG_DIR/config" "$BACKUP_FILE" 2>/dev/null
+                
+                print_info "Restoring Ghostty config..."
+                if cp "$GHOSTTY_CONFIG_FILE" "$GHOSTTY_CONFIG_DIR/config" 2>&1; then
+                    print_success "Ghostty config restored"
+                else
+                    print_error "Failed to restore Ghostty config"
+                fi
+            fi
+        else
+            print_info "Installing Ghostty config..."
+            if cp "$GHOSTTY_CONFIG_FILE" "$GHOSTTY_CONFIG_DIR/config" 2>&1; then
+                print_success "Ghostty config installed"
+            else
+                print_error "Failed to install Ghostty config"
+            fi
+        fi
+    else
+        print_warning "ghostty-config not found in repository"
+    fi
+else
+    print_warning "Ghostty not installed yet. Config will be skipped."
+    print_info "Run this script again after Ghostty is installed to configure it."
+fi
+
+###############################################################################
+# 11. Install Oh My Zsh & Themes
+###############################################################################
+print_section "11. Oh My Zsh & Themes"
 
 if [ -d "$HOME/.oh-my-zsh" ]; then
     print_success "Oh My Zsh already installed"
@@ -440,9 +490,9 @@ else
 fi
 
 ###############################################################################
-# 11. Configure .zshrc (Standardized Configuration)
+# 12. Configure .zshrc (Standardized Configuration)
 ###############################################################################
-print_section "11. Configure .zshrc"
+print_section "12. Configure .zshrc"
 
 # Path to template in the repo
 ZSHRC_TEMPLATE="$SCRIPT_DIR/zshrc-template"
@@ -504,9 +554,9 @@ else
 fi
 
 ###############################################################################
-# 12. Configure Git
+# 13. Configure Git
 ###############################################################################
-print_section "12. Git Configuration"
+print_section "13. Git Configuration"
 
 print_info "Current Git configuration:"
 git config --global user.name 2>/dev/null || print_warning "Git user.name not set"
@@ -518,9 +568,9 @@ echo "  git config --global user.name \"Your Name\""
 echo "  git config --global user.email \"your.email@example.com\""
 
 ###############################################################################
-# 13. macOS System Preferences
+# 14. macOS System Preferences
 ###############################################################################
-print_section "13. macOS System Preferences"
+print_section "14. macOS System Preferences"
 
 print_info "Configuring macOS system preferences..."
 
@@ -546,9 +596,9 @@ print_success "macOS preferences configured"
 print_warning "Some changes require restarting Finder: killall Finder"
 
 ###############################################################################
-# 14. Cleanup and Final Steps
+# 15. Cleanup and Final Steps
 ###############################################################################
-print_section "14. Cleanup"
+print_section "15. Cleanup"
 
 print_info "Running Homebrew cleanup..."
 if brew cleanup 2>&1; then

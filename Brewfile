@@ -34,6 +34,7 @@ cask "visual-studio-code"
 
 # Development Tools
 cask "docker"    # Containerization
+cask "ghostty"   # Modern GPU-accelerated terminal
 cask "insomnia"  # API client
 cask "iterm2"
 cask "pgadmin4"

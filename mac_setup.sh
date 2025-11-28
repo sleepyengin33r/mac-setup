@@ -183,11 +183,11 @@ print_section "6. Python Installation (via uv)"
 if command -v uv &> /dev/null; then
     print_success "uv is installed"
 
-    # Check if Python is already installed via uv
-    if uv python list 2>/dev/null | grep -q "cpython"; then
+    # Check if Python is already installed via uv (check actual install directory)
+    if [ -d "$HOME/.local/share/uv/python" ] && [ "$(ls -A $HOME/.local/share/uv/python 2>/dev/null)" ]; then
         print_success "Python already installed via uv"
         print_info "Installed Python versions:"
-        uv python list 2>/dev/null | head -5 || true
+        uv python list --only-installed 2>/dev/null || ls "$HOME/.local/share/uv/python" 2>/dev/null
     else
         # Install latest Python version
         print_info "Installing latest Python version via uv..."
@@ -196,7 +196,7 @@ if command -v uv &> /dev/null; then
 
             # Show installed Python versions
             print_info "Installed Python versions:"
-            uv python list 2>/dev/null || true
+            uv python list --only-installed 2>/dev/null || true
         else
             print_warning "Failed to install Python via uv. You can install manually with: uv python install"
         fi

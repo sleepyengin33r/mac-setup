@@ -9,7 +9,6 @@ tap "romkatv/powerlevel10k"
 # ============================================================================
 # Command Line Tools
 # ============================================================================
-brew "awscli"
 brew "git"
 brew "nvm"
 brew "powerlevel10k"
@@ -34,17 +33,23 @@ cask "cursor"
 cask "visual-studio-code"
 
 # Development Tools
+cask "docker"    # Containerization
+cask "insomnia"  # API client
 cask "iterm2"
 cask "pgadmin4"
 cask "postgres-unofficial"  # Postgres.app (GUI for PostgreSQL)
-cask "postman"
+cask "tableplus" # Database GUI
 
 # Productivity
 cask "caffeine"
+cask "flow"      # Pomodoro timer
 cask "flux"
 cask "notion"
+cask "raycast"   # Spotlight replacement
 cask "rectangle"
-cask "slack"
+
+# Communication
+cask "discord"
 
 # Font
 cask "font-meslo-lg-nerd-font"

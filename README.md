@@ -5,7 +5,7 @@ Automated setup script for macOS development environment with standardized confi
 ## 📋 What's Included
 
 ### Command Line Tools
-- AWS CLI, Git, NVM, uv (Python version & package manager), Wget, Yarn
+- Git, NVM, uv (Python version & package manager), Wget, Yarn
 - Powerlevel10k theme
 - Zsh plugins (autosuggestions, completions, syntax highlighting)
 - **Python:** Managed by uv (installs latest version automatically)
@@ -14,10 +14,10 @@ Automated setup script for macOS development environment with standardized confi
 ### GUI Applications
 - **Browsers:** Chrome, Tor Browser
 - **Editors:** Cursor, Visual Studio Code
-- **Productivity:** Caffeine, Flow, Flux, Notion, Rectangle
-- **Development:** iTerm2, pgAdmin 4, Postgres.app, Postman
+- **Productivity:** Caffeine, Flow (Pomodoro timer), Flux, Notion, Raycast, Rectangle
+- **Development:** Docker, Insomnia (API client), iTerm2, pgAdmin 4, Postgres.app, TablePlus
 - **Font:** MesloLGS NF (Nerd Font)
-- **Communication:** Slack
+- **Communication:** Discord
 
 ### Configuration
 - Oh My Zsh with standardized `.zshrc` template
@@ -53,9 +53,6 @@ After setup completes, configure these manually:
 # Git
 git config --global user.name "Your Name"
 git config --global user.email "your.email@example.com"
-
-# AWS CLI
-aws configure
 
 # Powerlevel10k theme (restart terminal, follow wizard)
 p10k configure

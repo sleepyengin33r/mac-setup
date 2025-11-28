@@ -135,7 +135,6 @@ CASKS=(
     "cursor"
     "discord"
     "docker"
-    "flow"
     "flux"
     "ghostty"
     "google-chrome"

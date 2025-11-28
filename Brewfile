@@ -31,7 +31,6 @@ cask "tableplus" # Database GUI
 
 # Productivity
 cask "caffeine"
-cask "flow"      # Pomodoro timer
 cask "flux"
 cask "notion"
 cask "rectangle"

@@ -54,7 +54,7 @@ git config --global user.email "your.email@example.com"
 
 ### VS Code & Cursor Configuration
 - Extensions are installed from `vscode-extensions.txt` to both VS Code and Cursor
-- Settings are restored from `vscode-settings.json` to both editors
+- Settings are restored from `vscode-global-settings.json` to both editors
 - Existing configurations are backed up before restoration
 
 ## ✨ Features
@@ -85,7 +85,7 @@ git commit -m "Add <package-name>"
 code --list-extensions > vscode-extensions.txt
 
 # Backup current settings
-cp "$HOME/Library/Application Support/Code/User/settings.json" vscode-settings.json
+cp "$HOME/Library/Application Support/Code/User/settings.json" vscode-global-settings.json
 
 # Commit changes
 git add vscode-*.txt vscode-*.json

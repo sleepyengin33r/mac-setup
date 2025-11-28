@@ -9,8 +9,8 @@
   "editor.renderWhitespace": "selection",
   "editor.bracketPairColorization.enabled": true,
   "editor.guides.bracketPairs": "active",
-  "editor.wordWrap": "off",
   "editor.tabSize": 2,
+  "editor.wordWrap": "off",
 
   "workbench.sideBar.location": "left",
   "workbench.startupEditor": "none",
@@ -25,6 +25,25 @@
   "terminal.integrated.fontFamily": "'JetBrains Mono', monospace",
   "terminal.integrated.fontSize": 13,
 
+  "[python]": {
+    "editor.tabSize": 4,
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit"
+    }
+  },
+
+  "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[javascriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+
+  "[markdown]": {
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": false
+  },
+
   "projectManager.sortList": "Recent",
   "projectManager.git.baseFolders": [
     "~/Projects",
@@ -35,5 +54,7 @@
   "gitlens.codeLens.enabled": false,
   "gitlens.currentLine.enabled": true,
   "gitlens.currentLine.scrollable": false,
-  "gitlens.hovers.currentLine.over": "line"
+  "gitlens.hovers.currentLine.over": "line",
+
+  "prettier.singleQuote": true
 }

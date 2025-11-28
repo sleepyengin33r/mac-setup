@@ -41,7 +41,7 @@ git config --global user.name "Your Name"
 git config --global user.email "you@example.com"
 ```
 
-## 📋 Quick Reference
+## 📋 Quick References
 
 ```bash
 # Update all

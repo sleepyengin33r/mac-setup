@@ -10,6 +10,8 @@ brew "nvm"
 brew "uv"
 brew "wget"
 brew "yarn"
+brew "zsh-autosuggestions"    # Fish-like autosuggestions for zsh
+brew "zsh-syntax-highlighting" # Syntax highlighting for zsh commands
 
 # ============================================================================
 # GUI Applications

@@ -48,7 +48,7 @@ print_section() {
 }
 
 # Check if script is run with sudo (we don't want that)
-if [ "$EUID" -eq 0 ]; then 
+if [ "$EUID" -eq 0 ]; then
     print_error "Please do not run this script with sudo"
     exit 1
 fi
@@ -106,6 +106,8 @@ FORMULAE=(
     "uv"
     "wget"
     "yarn"
+    "zsh-autosuggestions"
+    "zsh-syntax-highlighting"
 )
 
 print_info "Installing formula packages..."
@@ -180,7 +182,7 @@ print_section "6. Python Installation (via uv)"
 
 if command -v uv &> /dev/null; then
     print_success "uv is installed"
-    
+
     # Check if Python is already installed via uv
     if uv python list 2>/dev/null | grep -q "cpython"; then
         print_success "Python already installed via uv"
@@ -191,7 +193,7 @@ if command -v uv &> /dev/null; then
         print_info "Installing latest Python version via uv..."
         if uv python install 2>&1; then
             print_success "Python installed via uv"
-            
+
             # Show installed Python versions
             print_info "Installed Python versions:"
             uv python list 2>/dev/null || true
@@ -252,18 +254,18 @@ VSCODE_USER_DIR="$HOME/Library/Application Support/Code/User"
 # Check if VS Code is installed
 if command -v code &> /dev/null || [ -d "/Applications/Visual Studio Code.app" ]; then
     print_success "VS Code is installed"
-    
+
     # Install extensions (only if VS Code CLI is available)
     if command -v code &> /dev/null; then
         if [ -f "$VSCODE_EXTENSIONS_FILE" ]; then
             print_info "Installing VS Code extensions..."
             VSCODE_EXT_INSTALLED=0
             VSCODE_EXT_FAILED=0
-            
+
             while IFS= read -r extension || [ -n "$extension" ]; do
                 # Skip empty lines
                 [ -z "$extension" ] && continue
-                
+
                 # Check if extension is already installed
                 if code --list-extensions 2>/dev/null | grep -q "^${extension}$"; then
                     print_success "Extension already installed: $extension"
@@ -278,7 +280,7 @@ if command -v code &> /dev/null || [ -d "/Applications/Visual Studio Code.app" ]
                     fi
                 fi
             done < "$VSCODE_EXTENSIONS_FILE"
-            
+
             [ $VSCODE_EXT_INSTALLED -gt 0 ] && print_success "Installed $VSCODE_EXT_INSTALLED new VS Code extension(s)"
             [ $VSCODE_EXT_FAILED -gt 0 ] && print_warning "Failed to install $VSCODE_EXT_FAILED VS Code extension(s)"
         else
@@ -288,19 +290,19 @@ if command -v code &> /dev/null || [ -d "/Applications/Visual Studio Code.app" ]
     else
         print_warning "VS Code CLI not found. Skipping extension installation."
     fi
-    
+
     # Restore settings
     if [ -f "$VSCODE_SETTINGS_FILE" ]; then
         # Create VS Code User directory if it doesn't exist
         mkdir -p "$VSCODE_USER_DIR" 2>/dev/null
-        
+
         # Backup existing settings if they exist
         if [ -f "$VSCODE_USER_DIR/settings.json" ]; then
             BACKUP_FILE="$VSCODE_USER_DIR/settings.json.backup.$(date +%Y%m%d_%H%M%S)"
             print_info "Backing up existing VS Code settings to: ${BACKUP_FILE##*/}"
             cp "$VSCODE_USER_DIR/settings.json" "$BACKUP_FILE" 2>/dev/null
         fi
-        
+
         print_info "Restoring VS Code settings..."
         if cp "$VSCODE_SETTINGS_FILE" "$VSCODE_USER_DIR/settings.json" 2>&1; then
             print_success "VS Code settings restored"
@@ -324,18 +326,18 @@ CURSOR_USER_DIR="$HOME/Library/Application Support/Cursor/User"
 # Check if Cursor is installed
 if command -v cursor &> /dev/null || [ -d "/Applications/Cursor.app" ]; then
     print_success "Cursor is installed"
-    
+
     # Install same extensions in Cursor (only if Cursor CLI is available)
     if command -v cursor &> /dev/null; then
         if [ -f "$VSCODE_EXTENSIONS_FILE" ]; then
             print_info "Installing extensions in Cursor (same as VS Code)..."
             CURSOR_EXT_INSTALLED=0
             CURSOR_EXT_FAILED=0
-            
+
             while IFS= read -r extension || [ -n "$extension" ]; do
                 # Skip empty lines
                 [ -z "$extension" ] && continue
-                
+
                 # Check if extension is already installed
                 if cursor --list-extensions 2>/dev/null | grep -q "^${extension}$"; then
                     print_success "Extension already installed: $extension"
@@ -350,7 +352,7 @@ if command -v cursor &> /dev/null || [ -d "/Applications/Cursor.app" ]; then
                     fi
                 fi
             done < "$VSCODE_EXTENSIONS_FILE"
-            
+
             [ $CURSOR_EXT_INSTALLED -gt 0 ] && print_success "Installed $CURSOR_EXT_INSTALLED new Cursor extension(s)"
             [ $CURSOR_EXT_FAILED -gt 0 ] && print_warning "Failed to install $CURSOR_EXT_FAILED Cursor extension(s)"
         else
@@ -359,19 +361,19 @@ if command -v cursor &> /dev/null || [ -d "/Applications/Cursor.app" ]; then
     else
         print_warning "Cursor CLI not found. Skipping extension installation."
     fi
-    
+
     # Copy settings to Cursor (same as VS Code)
     if [ -f "$VSCODE_SETTINGS_FILE" ]; then
         # Create Cursor User directory if it doesn't exist
         mkdir -p "$CURSOR_USER_DIR" 2>/dev/null
-        
+
         # Backup existing settings if they exist
         if [ -f "$CURSOR_USER_DIR/settings.json" ]; then
             BACKUP_FILE="$CURSOR_USER_DIR/settings.json.backup.$(date +%Y%m%d_%H%M%S)"
             print_info "Backing up existing Cursor settings to: ${BACKUP_FILE##*/}"
             cp "$CURSOR_USER_DIR/settings.json" "$BACKUP_FILE" 2>/dev/null
         fi
-        
+
         print_info "Importing VS Code settings to Cursor..."
         if cp "$VSCODE_SETTINGS_FILE" "$CURSOR_USER_DIR/settings.json" 2>&1; then
             print_success "Cursor settings imported from VS Code config"
@@ -397,12 +399,12 @@ GHOSTTY_CONFIG_DIR="$HOME/.config/ghostty"
 # Check if Ghostty is installed
 if [ -d "/Applications/Ghostty.app" ]; then
     print_success "Ghostty is installed"
-    
+
     # Restore config
     if [ -f "$GHOSTTY_CONFIG_FILE" ]; then
         # Create Ghostty config directory if it doesn't exist
         mkdir -p "$GHOSTTY_CONFIG_DIR" 2>/dev/null
-        
+
         # Backup existing config if it exists
         if [ -f "$GHOSTTY_CONFIG_DIR/config" ]; then
             if cmp -s "$GHOSTTY_CONFIG_FILE" "$GHOSTTY_CONFIG_DIR/config" 2>/dev/null; then
@@ -411,7 +413,7 @@ if [ -d "/Applications/Ghostty.app" ]; then
                 BACKUP_FILE="$GHOSTTY_CONFIG_DIR/config.backup.$(date +%Y%m%d_%H%M%S)"
                 print_info "Backing up existing Ghostty config to: ${BACKUP_FILE##*/}"
                 cp "$GHOSTTY_CONFIG_DIR/config" "$BACKUP_FILE" 2>/dev/null
-                
+
                 print_info "Restoring Ghostty config..."
                 if cp "$GHOSTTY_CONFIG_FILE" "$GHOSTTY_CONFIG_DIR/config" 2>&1; then
                     print_success "Ghostty config restored"
@@ -436,9 +438,51 @@ else
 fi
 
 ###############################################################################
-# 10. Configure Git
+# 10. Configure Zsh
 ###############################################################################
-print_section "10. Git Configuration"
+print_section "10. Zsh Configuration"
+
+ZSHRC_TEMPLATE="$SCRIPT_DIR/zshrc-template"
+ZSHRC_FILE="$HOME/.zshrc"
+
+if [ -f "$ZSHRC_TEMPLATE" ]; then
+    # Backup existing .zshrc if it exists and is different
+    if [ -f "$ZSHRC_FILE" ]; then
+        if cmp -s "$ZSHRC_TEMPLATE" "$ZSHRC_FILE" 2>/dev/null; then
+            print_success ".zshrc already matches template"
+        else
+            BACKUP_FILE="$HOME/.zshrc.backup.$(date +%Y%m%d_%H%M%S)"
+            print_info "Backing up existing .zshrc to: ${BACKUP_FILE##*/}"
+            cp "$ZSHRC_FILE" "$BACKUP_FILE" 2>/dev/null
+
+            print_info "Installing new .zshrc..."
+            if cp "$ZSHRC_TEMPLATE" "$ZSHRC_FILE" 2>&1; then
+                print_success ".zshrc installed"
+            else
+                print_error "Failed to install .zshrc"
+            fi
+        fi
+    else
+        print_info "Installing .zshrc..."
+        if cp "$ZSHRC_TEMPLATE" "$ZSHRC_FILE" 2>&1; then
+            print_success ".zshrc installed"
+        else
+            print_error "Failed to install .zshrc"
+        fi
+    fi
+
+    print_info "Zsh plugins configured:"
+    echo "  • zsh-autosuggestions: Fish-like suggestions as you type"
+    echo "  • zsh-syntax-highlighting: Colors for valid/invalid commands"
+    print_info "Run 'source ~/.zshrc' or restart terminal to activate"
+else
+    print_warning "zshrc-template not found in repository"
+fi
+
+###############################################################################
+# 11. Configure Git
+###############################################################################
+print_section "11. Git Configuration"
 
 print_info "Current Git configuration:"
 git config --global user.name 2>/dev/null || print_warning "Git user.name not set"
@@ -450,9 +494,9 @@ echo "  git config --global user.name \"Your Name\""
 echo "  git config --global user.email \"your.email@example.com\""
 
 ###############################################################################
-# 11. macOS System Preferences
+# 12. macOS System Preferences
 ###############################################################################
-print_section "11. macOS System Preferences"
+print_section "12. macOS System Preferences"
 
 print_info "Configuring macOS system preferences..."
 
@@ -478,9 +522,9 @@ print_success "macOS preferences configured"
 print_warning "Some changes require restarting Finder: killall Finder"
 
 ###############################################################################
-# 12. Cleanup and Final Steps
+# 13. Cleanup and Final Steps
 ###############################################################################
-print_section "12. Cleanup"
+print_section "13. Cleanup"
 
 print_info "Running Homebrew cleanup..."
 if brew cleanup 2>&1; then

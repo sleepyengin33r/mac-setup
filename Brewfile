@@ -4,6 +4,7 @@
 # ============================================================================
 # Command Line Tools
 # ============================================================================
+brew "docker-completion"  # Shell autocomplete for Docker commands
 brew "git"
 brew "nvm"
 brew "uv"
@@ -22,7 +23,7 @@ cask "cursor"
 cask "visual-studio-code"
 
 # Development Tools
-cask "docker"    # Containerization
+cask "docker"    # Docker Desktop (includes engine + GUI)
 cask "ghostty"   # Modern GPU-accelerated terminal
 cask "insomnia"  # API client
 cask "pgadmin4"

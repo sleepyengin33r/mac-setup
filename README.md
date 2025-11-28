@@ -1,170 +1,55 @@
-# Mac Development Environment Setup
+# Mac Setup
 
-Automated setup script for macOS development environment with standardized configuration.
+Automated macOS development environment setup.
 
-## 📋 What's Included
+## Usage
 
-### Command Line Tools
-- Git, NVM, uv (Python version & package manager), Wget, Yarn
-- **Python:** Managed by uv (installs latest version automatically)
-- **Node.js:** Managed by nvm (installs LTS version automatically)
-
-### GUI Applications
-- **Browsers:** Chrome, Tor Browser
-- **Editors:** Cursor, Visual Studio Code
-- **Productivity:** Caffeine, Flux, Notion, Rectangle
-- **Development:** Docker, Ghostty, Insomnia (API client), Postgres.app, TablePlus
-- **Communication:** Discord
-
-### Configuration
-- Ghostty terminal config (`ghostty-config`) with Dracula theme
-- NVM for Node.js version management
-- Cursor extensions and settings backup/restore
-- Developer-friendly macOS system settings
-- Automatic backups of existing configurations
-
-## 🚀 Usage
-
-### Initial Setup
 ```bash
-cd ~/Desktop
-git clone <your-repo-url> mac-setup
-cd mac-setup
-chmod +x mac_setup.sh
-./mac_setup.sh
+chmod +x setup.sh
+./setup.sh
 ```
 
-### Update Everything
+## What It Does
+
+- Installs Homebrew packages from `Brewfile`
+- Sets up Python (uv) and Node.js (nvm)
+- Configures VS Code, Cursor, and Ghostty
+- Applies zsh config with autosuggestions + syntax highlighting
+- Sets macOS developer preferences
+
+## Packages
+
+**CLI:** git, nvm, uv, wget, yarn, zsh-autosuggestions, zsh-syntax-highlighting
+
+**Apps:** Chrome, Tor Browser, Cursor, VS Code, Docker, Ghostty, Insomnia, Postgres.app, TablePlus, Caffeine, Flux, Notion, Rectangle, Discord
+
+## Files
+
+| File | Purpose |
+|------|---------|
+| `setup.sh` | Main setup script |
+| `Brewfile` | Homebrew packages |
+| `zshrc-template` | Zsh configuration |
+| `ghostty-config` | Terminal config (Dracula theme) |
+| `vscode-settings.json` | Editor settings |
+| `vscode-extensions.txt` | Editor extensions |
+
+## Post-Setup
+
 ```bash
-brew update && brew upgrade && brew cleanup
-nvm install --lts --latest-npm
-```
-
-## 🔧 Post-Installation
-
-After setup completes, configure these manually:
-
-```bash
-# Git
 git config --global user.name "Your Name"
-git config --global user.email "your.email@example.com"
+git config --global user.email "you@example.com"
 ```
 
-**Note:** Python and Node.js LTS are automatically installed during setup via `uv` and `nvm`.
+## Quick Reference
 
-### VS Code & Cursor Configuration
-- Extensions are installed from `vscode-extensions.txt` to both VS Code and Cursor
-- Settings are restored from `vscode-global-settings.json` to both editors
-- Existing configurations are backed up before restoration
-
-## ✨ Features
-
-- Idempotent (safe to run multiple times)
-- Automatic backups before changes
-- Robust error handling (continues on failures)
-- Skips already installed packages
-- Color-coded progress output
-- Installation summary report
-
-## 📦 Managing Packages
-
-### Add New Software
 ```bash
-# Find package
-brew search <package-name>
+# Update all
+brew update && brew upgrade && brew cleanup
 
-# Edit mac_setup.sh: add to FORMULAE (CLI) or CASKS (GUI)
-# Then commit
-git add mac_setup.sh
-git commit -m "Add <package-name>"
-```
-
-### Update VS Code / Cursor Configuration
-```bash
-# Export current extensions (from VS Code - will be synced to Cursor)
-code --list-extensions > vscode-extensions.txt
-
-# Backup current settings
-cp "$HOME/Library/Application Support/Code/User/settings.json" vscode-global-settings.json
-
-# Commit changes
-git add vscode-*.txt vscode-*.json
-git commit -m "Update VS Code / Cursor configuration"
-```
-
-### Remove Software
-```bash
-brew uninstall <formula-name>              # CLI tool
-brew uninstall --cask <cask-name>          # GUI app
-brew autoremove                             # Remove unused dependencies
-```
-
-### Check Installed
-```bash
-brew list --formula    # CLI tools
-brew list --cask       # GUI apps
-uv python list        # Python versions
-nvm list              # Node.js versions
-```
-
-## 🐍 Python & Node Version Management
-
-### Python (via uv)
-```bash
-# List available Python versions
-uv python list --all-versions
-
-# Install specific Python version
+# Python
 uv python install 3.12
 
-# Install latest Python
-uv python install
-
-# Create project with specific Python
-uv init my-project --python 3.12
-
-# Install packages
-uv pip install requests pandas numpy
-```
-
-### Node.js (via nvm)
-```bash
-# List available Node versions
-nvm ls-remote
-
-# Install specific version
-nvm install 20.10.0
-
-# Install latest LTS
+# Node.js
 nvm install --lts
-
-# Use specific version
-nvm use 20
-
-# Set default version
-nvm alias default node
 ```
-
-## 🐛 Troubleshooting
-
-```bash
-# Homebrew issues
-brew doctor
-
-# Permission issues
-sudo chown -R $(whoami) $(brew --prefix)/*
-
-# Shell issues
-exec zsh             # Restart shell
-
-# Failed package
-brew install --verbose <package-name>
-```
-
-## 📚 Resources
-
-- [Homebrew](https://docs.brew.sh/) • [NVM](https://github.com/nvm-sh/nvm) • [uv](https://github.com/astral-sh/uv) • [Ghostty](https://ghostty.org/)
-
----
-
-💡 **Tip:** Commit changes to track your environment over time!

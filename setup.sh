@@ -248,7 +248,7 @@ print_section "8. VS Code Extensions and Settings"
 
 # Path to extension list and settings files in the repo
 VSCODE_EXTENSIONS_FILE="$SCRIPT_DIR/vscode-extensions.txt"
-VSCODE_SETTINGS_FILE="$SCRIPT_DIR/vscode-global-settings.json"
+VSCODE_SETTINGS_FILE="$SCRIPT_DIR/vscode-settings.json"
 VSCODE_USER_DIR="$HOME/Library/Application Support/Code/User"
 
 # Check if VS Code is installed
@@ -310,7 +310,7 @@ if command -v code &> /dev/null || [ -d "/Applications/Visual Studio Code.app" ]
             print_error "Failed to restore VS Code settings"
         fi
     else
-        print_warning "vscode-global-settings.json not found in repository"
+        print_warning "vscode-settings.json not found in repository"
     fi
 else
     print_warning "VS Code not installed yet. Extensions and settings will be skipped."
@@ -381,7 +381,7 @@ if command -v cursor &> /dev/null || [ -d "/Applications/Cursor.app" ]; then
             print_error "Failed to import settings to Cursor"
         fi
     else
-        print_warning "vscode-global-settings.json not found - cannot import settings to Cursor"
+        print_warning "vscode-settings.json not found - cannot import settings to Cursor"
     fi
 else
     print_warning "Cursor not installed yet. Import will be skipped."

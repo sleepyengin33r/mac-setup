@@ -52,9 +52,9 @@ git config --global user.email "your.email@example.com"
 
 **Note:** Python and Node.js LTS are automatically installed during setup via `uv` and `nvm`.
 
-### Cursor IDE Configuration
-- Extensions are installed from `cursor-extensions.txt` when the `cursor` CLI is available
-- Settings and keybindings are restored from backup files
+### VS Code & Cursor Configuration
+- Extensions are installed from `vscode-extensions.txt` to both VS Code and Cursor
+- Settings are restored from `vscode-settings.json` to both editors
 - Existing configurations are backed up before restoration
 
 ## ✨ Features
@@ -79,18 +79,17 @@ git add mac_setup.sh
 git commit -m "Add <package-name>"
 ```
 
-### Update Cursor Configuration
+### Update VS Code / Cursor Configuration
 ```bash
-# Export current extensions
-cursor --list-extensions > cursor-extensions.txt
+# Export current extensions (from VS Code - will be synced to Cursor)
+code --list-extensions > vscode-extensions.txt
 
 # Backup current settings
-cp "$HOME/Library/Application Support/Cursor/User/settings.json" cursor-settings.json
-cp "$HOME/Library/Application Support/Cursor/User/keybindings.json" cursor-keybindings.json
+cp "$HOME/Library/Application Support/Code/User/settings.json" vscode-settings.json
 
 # Commit changes
-git add cursor-*.txt cursor-*.json
-git commit -m "Update Cursor configuration"
+git add vscode-*.txt vscode-*.json
+git commit -m "Update VS Code / Cursor configuration"
 ```
 
 ### Remove Software

@@ -1,8 +1,11 @@
 alefragnani.project-manager
-anysphere.cursorpyright
+charliermarsh.ruff
+christian-kohler.npm-intellisense
 dbaeumer.vscode-eslint
 eamodio.gitlens
 esbenp.prettier-vscode
 github.vscode-github-actions
+ms-azuretools.vscode-containers
 ms-azuretools.vscode-docker
-pflannery.vscode-versionlens
+ms-python.debugpy
+ms-python.python

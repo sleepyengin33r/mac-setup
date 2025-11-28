@@ -240,26 +240,97 @@ else
 fi
 
 ###############################################################################
-# 8. Configure Cursor Extensions and Settings
+# 8. Configure VS Code Extensions and Settings
 ###############################################################################
-print_section "8. Cursor Extensions and Settings"
+print_section "8. VS Code Extensions and Settings"
 
 # Path to extension list and settings files in the repo
-CURSOR_EXTENSIONS_FILE="$SCRIPT_DIR/cursor-extensions.txt"
-CURSOR_SETTINGS_FILE="$SCRIPT_DIR/cursor-settings.json"
-CURSOR_KEYBINDINGS_FILE="$SCRIPT_DIR/cursor-keybindings.json"
+VSCODE_EXTENSIONS_FILE="$SCRIPT_DIR/vscode-extensions.txt"
+VSCODE_SETTINGS_FILE="$SCRIPT_DIR/vscode-settings.json"
+VSCODE_USER_DIR="$HOME/Library/Application Support/Code/User"
+
+# Check if VS Code is installed
+if command -v code &> /dev/null || [ -d "/Applications/Visual Studio Code.app" ]; then
+    print_success "VS Code is installed"
+    
+    # Install extensions (only if VS Code CLI is available)
+    if command -v code &> /dev/null; then
+        if [ -f "$VSCODE_EXTENSIONS_FILE" ]; then
+            print_info "Installing VS Code extensions..."
+            VSCODE_EXT_INSTALLED=0
+            VSCODE_EXT_FAILED=0
+            
+            while IFS= read -r extension || [ -n "$extension" ]; do
+                # Skip empty lines
+                [ -z "$extension" ] && continue
+                
+                # Check if extension is already installed
+                if code --list-extensions 2>/dev/null | grep -q "^${extension}$"; then
+                    print_success "Extension already installed: $extension"
+                else
+                    print_info "Installing extension: $extension"
+                    if code --install-extension "$extension" --force 2>&1; then
+                        print_success "Installed extension: $extension"
+                        ((VSCODE_EXT_INSTALLED++))
+                    else
+                        print_error "Failed to install extension: $extension"
+                        ((VSCODE_EXT_FAILED++))
+                    fi
+                fi
+            done < "$VSCODE_EXTENSIONS_FILE"
+            
+            [ $VSCODE_EXT_INSTALLED -gt 0 ] && print_success "Installed $VSCODE_EXT_INSTALLED new VS Code extension(s)"
+            [ $VSCODE_EXT_FAILED -gt 0 ] && print_warning "Failed to install $VSCODE_EXT_FAILED VS Code extension(s)"
+        else
+            print_warning "vscode-extensions.txt not found in repository"
+            print_info "To export extensions: code --list-extensions > vscode-extensions.txt"
+        fi
+    else
+        print_warning "VS Code CLI not found. Skipping extension installation."
+    fi
+    
+    # Restore settings
+    if [ -f "$VSCODE_SETTINGS_FILE" ]; then
+        # Create VS Code User directory if it doesn't exist
+        mkdir -p "$VSCODE_USER_DIR" 2>/dev/null
+        
+        # Backup existing settings if they exist
+        if [ -f "$VSCODE_USER_DIR/settings.json" ]; then
+            BACKUP_FILE="$VSCODE_USER_DIR/settings.json.backup.$(date +%Y%m%d_%H%M%S)"
+            print_info "Backing up existing VS Code settings to: ${BACKUP_FILE##*/}"
+            cp "$VSCODE_USER_DIR/settings.json" "$BACKUP_FILE" 2>/dev/null
+        fi
+        
+        print_info "Restoring VS Code settings..."
+        if cp "$VSCODE_SETTINGS_FILE" "$VSCODE_USER_DIR/settings.json" 2>&1; then
+            print_success "VS Code settings restored"
+        else
+            print_error "Failed to restore VS Code settings"
+        fi
+    else
+        print_warning "vscode-settings.json not found in repository"
+    fi
+else
+    print_warning "VS Code not installed yet. Extensions and settings will be skipped."
+fi
+
+###############################################################################
+# 8b. Import VS Code Extensions and Settings to Cursor
+###############################################################################
+print_section "8b. Import to Cursor (from VS Code config)"
+
 CURSOR_USER_DIR="$HOME/Library/Application Support/Cursor/User"
 
 # Check if Cursor is installed
 if command -v cursor &> /dev/null || [ -d "/Applications/Cursor.app" ]; then
     print_success "Cursor is installed"
     
-    # Install extensions (only if Cursor CLI is available)
+    # Install same extensions in Cursor (only if Cursor CLI is available)
     if command -v cursor &> /dev/null; then
-        if [ -f "$CURSOR_EXTENSIONS_FILE" ]; then
-            print_info "Installing Cursor extensions..."
-            EXTENSIONS_INSTALLED=0
-            EXTENSIONS_FAILED=0
+        if [ -f "$VSCODE_EXTENSIONS_FILE" ]; then
+            print_info "Installing extensions in Cursor (same as VS Code)..."
+            CURSOR_EXT_INSTALLED=0
+            CURSOR_EXT_FAILED=0
             
             while IFS= read -r extension || [ -n "$extension" ]; do
                 # Skip empty lines
@@ -272,26 +343,25 @@ if command -v cursor &> /dev/null || [ -d "/Applications/Cursor.app" ]; then
                     print_info "Installing extension: $extension"
                     if cursor --install-extension "$extension" --force 2>&1; then
                         print_success "Installed extension: $extension"
-                        ((EXTENSIONS_INSTALLED++))
+                        ((CURSOR_EXT_INSTALLED++))
                     else
                         print_error "Failed to install extension: $extension"
-                        ((EXTENSIONS_FAILED++))
+                        ((CURSOR_EXT_FAILED++))
                     fi
                 fi
-            done < "$CURSOR_EXTENSIONS_FILE"
+            done < "$VSCODE_EXTENSIONS_FILE"
             
-            [ $EXTENSIONS_INSTALLED -gt 0 ] && print_success "Installed $EXTENSIONS_INSTALLED new extension(s)"
-            [ $EXTENSIONS_FAILED -gt 0 ] && print_warning "Failed to install $EXTENSIONS_FAILED extension(s)"
+            [ $CURSOR_EXT_INSTALLED -gt 0 ] && print_success "Installed $CURSOR_EXT_INSTALLED new Cursor extension(s)"
+            [ $CURSOR_EXT_FAILED -gt 0 ] && print_warning "Failed to install $CURSOR_EXT_FAILED Cursor extension(s)"
         else
-            print_warning "cursor-extensions.txt not found in repository"
-            print_info "To export extensions: cursor --list-extensions > cursor-extensions.txt"
+            print_warning "vscode-extensions.txt not found - cannot import extensions to Cursor"
         fi
     else
-        print_warning "Cursor CLI not found. Skipping extension installation; settings will still be restored."
+        print_warning "Cursor CLI not found. Skipping extension installation."
     fi
     
-    # Restore settings
-    if [ -f "$CURSOR_SETTINGS_FILE" ]; then
+    # Copy settings to Cursor (same as VS Code)
+    if [ -f "$VSCODE_SETTINGS_FILE" ]; then
         # Create Cursor User directory if it doesn't exist
         mkdir -p "$CURSOR_USER_DIR" 2>/dev/null
         
@@ -302,40 +372,18 @@ if command -v cursor &> /dev/null || [ -d "/Applications/Cursor.app" ]; then
             cp "$CURSOR_USER_DIR/settings.json" "$BACKUP_FILE" 2>/dev/null
         fi
         
-        print_info "Restoring Cursor settings..."
-        if cp "$CURSOR_SETTINGS_FILE" "$CURSOR_USER_DIR/settings.json" 2>&1; then
-            print_success "Cursor settings restored"
+        print_info "Importing VS Code settings to Cursor..."
+        if cp "$VSCODE_SETTINGS_FILE" "$CURSOR_USER_DIR/settings.json" 2>&1; then
+            print_success "Cursor settings imported from VS Code config"
         else
-            print_error "Failed to restore Cursor settings"
+            print_error "Failed to import settings to Cursor"
         fi
     else
-        print_warning "cursor-settings.json not found in repository"
-    fi
-    
-    # Restore keybindings
-    if [ -f "$CURSOR_KEYBINDINGS_FILE" ]; then
-        # Create Cursor User directory if it doesn't exist
-        mkdir -p "$CURSOR_USER_DIR" 2>/dev/null
-        
-        # Backup existing keybindings if they exist
-        if [ -f "$CURSOR_USER_DIR/keybindings.json" ]; then
-            BACKUP_FILE="$CURSOR_USER_DIR/keybindings.json.backup.$(date +%Y%m%d_%H%M%S)"
-            print_info "Backing up existing Cursor keybindings to: ${BACKUP_FILE##*/}"
-            cp "$CURSOR_USER_DIR/keybindings.json" "$BACKUP_FILE" 2>/dev/null
-        fi
-        
-        print_info "Restoring Cursor keybindings..."
-        if cp "$CURSOR_KEYBINDINGS_FILE" "$CURSOR_USER_DIR/keybindings.json" 2>&1; then
-            print_success "Cursor keybindings restored"
-        else
-            print_error "Failed to restore Cursor keybindings"
-        fi
-    else
-        print_warning "cursor-keybindings.json not found in repository"
+        print_warning "vscode-settings.json not found - cannot import settings to Cursor"
     fi
 else
-    print_warning "Cursor not installed yet. Extensions and settings will be skipped."
-    print_info "Run this script again after Cursor is installed to configure extensions."
+    print_warning "Cursor not installed yet. Import will be skipped."
+    print_info "Run this script again after Cursor is installed to import settings."
 fi
 
 ###############################################################################

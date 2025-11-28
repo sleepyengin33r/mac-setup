@@ -13,7 +13,7 @@ Automated setup script for macOS development environment with standardized confi
 - **Browsers:** Chrome, Tor Browser
 - **Editors:** Cursor, Visual Studio Code
 - **Productivity:** Caffeine, Flow (Pomodoro timer), Flux, Notion, Rectangle
-- **Development:** Docker, Ghostty, Insomnia (API client), pgAdmin 4, Postgres.app, TablePlus
+- **Development:** Docker, Ghostty, Insomnia (API client), Postgres.app, TablePlus
 - **Communication:** Discord
 
 ### Configuration

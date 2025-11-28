@@ -141,7 +141,6 @@ CASKS=(
     "google-chrome"
     "insomnia"
     "notion"
-    "pgadmin4"
     "postgres-unofficial"
     "rectangle"
     "tableplus"
@@ -174,7 +173,6 @@ print_section "5. PostgreSQL Installation"
 print_success "Postgres.app will be installed via the casks section"
 print_info "Postgres.app provides a GUI for managing PostgreSQL databases"
 print_info "Website: https://postgresapp.com/"
-print_info "pgAdmin4 is also included for database management"
 
 ###############################################################################
 # 6. Install Python via uv

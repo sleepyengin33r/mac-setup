@@ -26,7 +26,6 @@ cask "visual-studio-code"
 cask "docker"    # Docker Desktop (includes engine + GUI)
 cask "ghostty"   # Modern GPU-accelerated terminal
 cask "insomnia"  # API client
-cask "pgadmin4"
 cask "postgres-unofficial"  # Postgres.app (GUI for PostgreSQL)
 cask "tableplus" # Database GUI
 

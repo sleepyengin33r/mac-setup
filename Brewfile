@@ -2,24 +2,13 @@
 # Usage: brew bundle install
 
 # ============================================================================
-# Taps (Third-party Repositories)
-# ============================================================================
-tap "romkatv/powerlevel10k"
-
-# ============================================================================
 # Command Line Tools
 # ============================================================================
 brew "git"
 brew "nvm"
-brew "powerlevel10k"
 brew "uv"
 brew "wget"
 brew "yarn"
-
-# Zsh Plugins
-brew "zsh-autosuggestions"
-brew "zsh-completions"
-brew "zsh-syntax-highlighting"
 
 # ============================================================================
 # GUI Applications
@@ -36,7 +25,6 @@ cask "visual-studio-code"
 cask "docker"    # Containerization
 cask "ghostty"   # Modern GPU-accelerated terminal
 cask "insomnia"  # API client
-cask "iterm2"
 cask "pgadmin4"
 cask "postgres-unofficial"  # Postgres.app (GUI for PostgreSQL)
 cask "tableplus" # Database GUI
@@ -50,7 +38,3 @@ cask "rectangle"
 
 # Communication
 cask "discord"
-
-# Font
-cask "font-meslo-lg-nerd-font"
-

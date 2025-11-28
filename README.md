@@ -6,8 +6,6 @@ Automated setup script for macOS development environment with standardized confi
 
 ### Command Line Tools
 - Git, NVM, uv (Python version & package manager), Wget, Yarn
-- Powerlevel10k theme
-- Zsh plugins (autosuggestions, completions, syntax highlighting)
 - **Python:** Managed by uv (installs latest version automatically)
 - **Node.js:** Managed by nvm (installs LTS version automatically)
 
@@ -15,13 +13,10 @@ Automated setup script for macOS development environment with standardized confi
 - **Browsers:** Chrome, Tor Browser
 - **Editors:** Cursor, Visual Studio Code
 - **Productivity:** Caffeine, Flow (Pomodoro timer), Flux, Notion, Rectangle
-- **Development:** Docker, Ghostty, Insomnia (API client), iTerm2, pgAdmin 4, Postgres.app, TablePlus
-- **Font:** MesloLGS NF (Nerd Font)
+- **Development:** Docker, Ghostty, Insomnia (API client), pgAdmin 4, Postgres.app, TablePlus
 - **Communication:** Discord
 
 ### Configuration
-- Oh My Zsh with standardized `.zshrc` template
-- Powerlevel10k config template (`p10k.zsh`) enforced to `~/.p10k.zsh` (with backup)
 - Ghostty terminal config (`ghostty-config`) with Dracula theme
 - NVM for Node.js version management
 - Cursor extensions and settings backup/restore
@@ -42,7 +37,6 @@ chmod +x mac_setup.sh
 ### Update Everything
 ```bash
 brew update && brew upgrade && brew cleanup
-omz update
 nvm install --lts --latest-npm
 ```
 
@@ -54,33 +48,18 @@ After setup completes, configure these manually:
 # Git
 git config --global user.name "Your Name"
 git config --global user.email "your.email@example.com"
-
-# Powerlevel10k theme (restart terminal, follow wizard)
-p10k configure
 ```
 
 **Note:** Python and Node.js LTS are automatically installed during setup via `uv` and `nvm`.
-
-### iTerm2 Font
-- Preferences → Profiles → Text → Font: "MesloLGS NF"
-
-### Shell Customization
-- Your existing `.zshrc` is backed up to `~/.zshrc.backup.TIMESTAMP`
-- Add personal configs to the bottom of `~/.zshrc` (under "Personal Customizations")
-- `~/.p10k.zsh` is kept identical to the repo template `p10k.zsh`.
-  Your existing file is backed up to `~/.p10k.zsh.backup.TIMESTAMP` before overwrite.
 
 ### Cursor IDE Configuration
 - Extensions are installed from `cursor-extensions.txt` when the `cursor` CLI is available
 - Settings and keybindings are restored from backup files
 - Existing configurations are backed up before restoration
 
-Note: The setup script adds required Homebrew taps, including `homebrew/cask-fonts` for fonts and `postgres-unofficial/postgres-unofficial` for Postgres.app (unofficial), to ensure all casks and formulae resolve.
-
 ## ✨ Features
 
 - Idempotent (safe to run multiple times)
-- Standardized `.zshrc` across all installations
 - Automatic backups before changes
 - Robust error handling (continues on failures)
 - Skips already installed packages
@@ -113,19 +92,6 @@ cp "$HOME/Library/Application Support/Cursor/User/keybindings.json" cursor-keybi
 git add cursor-*.txt cursor-*.json
 git commit -m "Update Cursor configuration"
 ```
-
-### Update Powerlevel10k Configuration
-```bash
-# Configure Powerlevel10k (generates ~/.p10k.zsh)
-p10k configure
-
-# Save your config back into the repo template
-cp ~/.p10k.zsh p10k.zsh
-git add p10k.zsh
-git commit -m "Update p10k config"
-```
-
-Note: The setup script will overwrite `~/.p10k.zsh` to ensure consistency across machines (after creating a timestamped backup).
 
 ### Remove Software
 ```bash
@@ -199,9 +165,8 @@ brew install --verbose <package-name>
 
 ## 📚 Resources
 
-- [Homebrew](https://docs.brew.sh/) • [Oh My Zsh](https://ohmyz.sh/) • [NVM](https://github.com/nvm-sh/nvm) • [Powerlevel10k](https://github.com/romkatv/powerlevel10k)
+- [Homebrew](https://docs.brew.sh/) • [NVM](https://github.com/nvm-sh/nvm) • [uv](https://github.com/astral-sh/uv) • [Ghostty](https://ghostty.org/)
 
 ---
 
 💡 **Tip:** Commit changes to track your environment over time!
-

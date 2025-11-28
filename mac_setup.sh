@@ -96,45 +96,16 @@ else
 fi
 
 ###############################################################################
-# 3. Add Homebrew Taps
+# 3. Install Homebrew Formulae (CLI Tools)
 ###############################################################################
-print_section "3. Homebrew Taps"
-
-TAPS=(
-    "romkatv/powerlevel10k"
-)
-
-for tap in "${TAPS[@]}"; do
-    if brew tap | grep -q "^${tap}$" 2>/dev/null; then
-        print_success "Tap already added: $tap"
-        ((PACKAGES_SKIPPED++))
-    else
-        print_info "Adding tap: $tap"
-        if brew tap "$tap" 2>&1; then
-            print_success "Tap added: $tap"
-            ((PACKAGES_INSTALLED++))
-        else
-            print_error "Failed to add tap: $tap (continuing anyway)"
-            ((PACKAGES_FAILED++))
-        fi
-    fi
-done
-
-###############################################################################
-# 4. Install Homebrew Formulae (CLI Tools)
-###############################################################################
-print_section "4. Homebrew Formulae (Command Line Tools)"
+print_section "3. Homebrew Formulae (Command Line Tools)"
 
 FORMULAE=(
     "git"
     "nvm"
-    "powerlevel10k"
     "uv"
     "wget"
     "yarn"
-    "zsh-autosuggestions"
-    "zsh-completions"
-    "zsh-syntax-highlighting"
 )
 
 print_info "Installing formula packages..."
@@ -155,9 +126,9 @@ for formula in "${FORMULAE[@]}"; do
 done
 
 ###############################################################################
-# 5. Install Homebrew Casks (GUI Applications)
+# 4. Install Homebrew Casks (GUI Applications)
 ###############################################################################
-print_section "5. Homebrew Casks (GUI Applications)"
+print_section "4. Homebrew Casks (GUI Applications)"
 
 CASKS=(
     "caffeine"
@@ -166,11 +137,9 @@ CASKS=(
     "docker"
     "flow"
     "flux"
-    "font-meslo-lg-nerd-font"
     "ghostty"
     "google-chrome"
     "insomnia"
-    "iterm2"
     "notion"
     "pgadmin4"
     "postgres-unofficial"
@@ -198,9 +167,9 @@ for cask in "${CASKS[@]}"; do
 done
 
 ###############################################################################
-# 6. PostgreSQL Installation
+# 5. PostgreSQL Installation
 ###############################################################################
-print_section "6. PostgreSQL Installation"
+print_section "5. PostgreSQL Installation"
 
 print_success "Postgres.app will be installed via the casks section"
 print_info "Postgres.app provides a GUI for managing PostgreSQL databases"
@@ -208,9 +177,9 @@ print_info "Website: https://postgresapp.com/"
 print_info "pgAdmin4 is also included for database management"
 
 ###############################################################################
-# 7. Install Python via uv
+# 6. Install Python via uv
 ###############################################################################
-print_section "7. Python Installation (via uv)"
+print_section "6. Python Installation (via uv)"
 
 if command -v uv &> /dev/null; then
     print_success "uv is installed"
@@ -238,9 +207,9 @@ else
 fi
 
 ###############################################################################
-# 8. Install Node.js via NVM
+# 7. Install Node.js via NVM
 ###############################################################################
-print_section "8. Node.js Installation (via NVM)"
+print_section "7. Node.js Installation (via NVM)"
 
 # Create NVM directory
 if [ ! -d "$HOME/.nvm" ]; then
@@ -274,9 +243,9 @@ else
 fi
 
 ###############################################################################
-# 9. Configure Cursor Extensions and Settings
+# 8. Configure Cursor Extensions and Settings
 ###############################################################################
-print_section "9. Cursor Extensions and Settings"
+print_section "8. Cursor Extensions and Settings"
 
 # Path to extension list and settings files in the repo
 CURSOR_EXTENSIONS_FILE="$SCRIPT_DIR/cursor-extensions.txt"
@@ -373,9 +342,9 @@ else
 fi
 
 ###############################################################################
-# 10. Configure Ghostty Terminal
+# 9. Configure Ghostty Terminal
 ###############################################################################
-print_section "10. Ghostty Terminal Configuration"
+print_section "9. Ghostty Terminal Configuration"
 
 GHOSTTY_CONFIG_FILE="$SCRIPT_DIR/ghostty-config"
 GHOSTTY_CONFIG_DIR="$HOME/.config/ghostty"
@@ -422,141 +391,9 @@ else
 fi
 
 ###############################################################################
-# 11. Install Oh My Zsh & Themes
+# 10. Configure Git
 ###############################################################################
-print_section "11. Oh My Zsh & Themes"
-
-if [ -d "$HOME/.oh-my-zsh" ]; then
-    print_success "Oh My Zsh already installed"
-else
-    print_info "Installing Oh My Zsh..."
-    if sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended 2>&1; then
-        print_success "Oh My Zsh installed"
-    else
-        print_warning "Oh My Zsh installation had issues, but continuing..."
-    fi
-fi
-
-# Install Spaceship theme (optional alternative to Powerlevel10k)
-print_info "Installing Spaceship theme (optional)..."
-SPACESHIP_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/spaceship-prompt"
-if [ -d "$SPACESHIP_DIR" ]; then
-    print_success "Spaceship theme already installed"
-else
-    if git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$SPACESHIP_DIR" --depth=1 2>&1; then
-        ln -sf "$SPACESHIP_DIR/spaceship.zsh-theme" "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/spaceship.zsh-theme" 2>&1
-        print_success "Spaceship theme installed (to use: edit ~/.zshrc and set ZSH_THEME='spaceship')"
-    else
-        print_warning "Failed to install Spaceship theme (optional, not critical)"
-    fi
-fi
-
-# Ensure Powerlevel10k theme is available to Oh My Zsh
-print_info "Ensuring Powerlevel10k theme is available for Oh My Zsh..."
-P10K_THEMES_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes"
-P10K_TARGET_DIR="$P10K_THEMES_DIR/powerlevel10k"
-P10K_TARGET_FILE="$P10K_TARGET_DIR/powerlevel10k.zsh-theme"
-
-# If already present, do nothing
-if [ -f "$P10K_TARGET_FILE" ]; then
-    print_success "Powerlevel10k theme already present"
-else
-    # Try preferred method: git clone into Oh My Zsh custom themes
-    print_info "Installing Powerlevel10k theme via git clone..."
-    mkdir -p "$P10K_THEMES_DIR" 2>/dev/null
-    if git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_TARGET_DIR" 2>/dev/null; then
-        print_success "Powerlevel10k theme installed via git"
-    else
-        # Fallback: link from Homebrew installation
-        print_warning "Git clone failed, falling back to Homebrew-provided theme"
-        P10K_BREW_DIR="$(brew --prefix 2>/dev/null)/opt/powerlevel10k"
-        if [ -d "$P10K_BREW_DIR" ]; then
-            # Link the entire directory so relative paths (if any) work
-            if ln -sfn "$P10K_BREW_DIR" "$P10K_TARGET_DIR" 2>/dev/null; then
-                print_success "Powerlevel10k theme linked from Homebrew"
-            else
-                # Last resort: try linking just the theme file
-                mkdir -p "$P10K_TARGET_DIR" 2>/dev/null
-                if ln -sf "$P10K_BREW_DIR/powerlevel10k.zsh-theme" "$P10K_TARGET_FILE" 2>/dev/null; then
-                    print_success "Powerlevel10k theme file linked from Homebrew"
-                else
-                    print_warning "Failed to link Powerlevel10k from Homebrew. You can run: git clone https://github.com/romkatv/powerlevel10k.git \"$P10K_TARGET_DIR\""
-                fi
-            fi
-        else
-            print_warning "Powerlevel10k not found via Homebrew. Ensure 'brew install powerlevel10k' succeeded."
-        fi
-    fi
-fi
-
-###############################################################################
-# 12. Configure .zshrc (Standardized Configuration)
-###############################################################################
-print_section "12. Configure .zshrc"
-
-# Path to template in the repo
-ZSHRC_TEMPLATE="$SCRIPT_DIR/zshrc-template"
-
-if [ -f "$ZSHRC_TEMPLATE" ]; then
-    # Backup existing .zshrc if it exists
-    if [ -f "$HOME/.zshrc" ]; then
-        BACKUP_FILE="$HOME/.zshrc.backup.$(date +%Y%m%d_%H%M%S)"
-        print_info "Backing up existing .zshrc to: $BACKUP_FILE"
-        if cp "$HOME/.zshrc" "$BACKUP_FILE" 2>&1; then
-            print_success "Backup created"
-        else
-            print_warning "Failed to create backup, but continuing..."
-        fi
-    fi
-    
-    # Copy template to ~/.zshrc
-    print_info "Installing standardized .zshrc configuration..."
-    if cp "$ZSHRC_TEMPLATE" "$HOME/.zshrc" 2>&1; then
-        print_success "Standardized .zshrc installed"
-        print_info "All configurations are now consistent across installations"
-    else
-        print_error "Failed to install .zshrc template"
-    fi
-else
-    print_warning ".zshrc template not found in repository"
-    print_info "Manual configuration may be needed"
-fi
-
-# Install Powerlevel10k user configuration (~/.p10k.zsh) from template to ensure consistency
-P10K_TEMPLATE="$SCRIPT_DIR/p10k.zsh"
-if [ -f "$P10K_TEMPLATE" ]; then
-    if [ -f "$HOME/.p10k.zsh" ]; then
-        if cmp -s "$P10K_TEMPLATE" "$HOME/.p10k.zsh" 2>/dev/null; then
-            print_success "~/.p10k.zsh already matches template"
-        else
-            BACKUP_FILE="$HOME/.p10k.zsh.backup.$(date +%Y%m%d_%H%M%S)"
-            print_info "Backing up existing ~/.p10k.zsh to: ${BACKUP_FILE##*/}"
-            cp "$HOME/.p10k.zsh" "$BACKUP_FILE" 2>/dev/null || true
-            print_info "Installing Powerlevel10k config (~/.p10k.zsh) from template..."
-            if cp "$P10K_TEMPLATE" "$HOME/.p10k.zsh" 2>&1; then
-                print_success "Installed ~/.p10k.zsh from template"
-                print_info "Customize anytime with: p10k configure"
-            else
-                print_warning "Failed to install ~/.p10k.zsh from template"
-            fi
-        fi
-    else
-        print_info "Installing Powerlevel10k config (~/.p10k.zsh) from template..."
-        if cp "$P10K_TEMPLATE" "$HOME/.p10k.zsh" 2>&1; then
-            print_success "Installed ~/.p10k.zsh from template"
-            print_info "Customize anytime with: p10k configure"
-        else
-            print_warning "Failed to install ~/.p10k.zsh from template"
-        fi
-    fi
-else
-    print_info "No p10k.zsh template found in repository (optional)"
-fi
-
-###############################################################################
-# 13. Configure Git
-###############################################################################
-print_section "13. Git Configuration"
+print_section "10. Git Configuration"
 
 print_info "Current Git configuration:"
 git config --global user.name 2>/dev/null || print_warning "Git user.name not set"
@@ -568,9 +405,9 @@ echo "  git config --global user.name \"Your Name\""
 echo "  git config --global user.email \"your.email@example.com\""
 
 ###############################################################################
-# 14. macOS System Preferences
+# 11. macOS System Preferences
 ###############################################################################
-print_section "14. macOS System Preferences"
+print_section "11. macOS System Preferences"
 
 print_info "Configuring macOS system preferences..."
 
@@ -596,9 +433,9 @@ print_success "macOS preferences configured"
 print_warning "Some changes require restarting Finder: killall Finder"
 
 ###############################################################################
-# 15. Cleanup and Final Steps
+# 12. Cleanup and Final Steps
 ###############################################################################
-print_section "15. Cleanup"
+print_section "12. Cleanup"
 
 print_info "Running Homebrew cleanup..."
 if brew cleanup 2>&1; then

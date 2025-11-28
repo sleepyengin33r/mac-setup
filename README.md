@@ -156,7 +156,6 @@ brew doctor
 sudo chown -R $(whoami) $(brew --prefix)/*
 
 # Shell issues
-source ~/.zshrc      # Reload config
 exec zsh             # Restart shell
 
 # Failed package

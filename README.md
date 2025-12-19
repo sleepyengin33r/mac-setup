@@ -21,7 +21,7 @@ chmod +x setup.sh
 
 **🔧 CLI:** git, nvm, uv, wget, yarn, zsh-autosuggestions, zsh-syntax-highlighting, commitizen
 
-**🖥️ Apps:** Chrome, Tor Browser, Cursor, VS Code, Docker, Ghostty, Insomnia, Postgres.app, TablePlus, Caffeine, Flux, Notion, Rectangle, Discord
+**🖥️ Apps:** Chrome, Tor Browser, Cursor, VS Code, Docker, Ghostty, Insomnia, Postgres.app, TablePlus, Caffeine, Flux, Notion, Rectangle, Discord, Slack
 
 ## 📁 Files
 

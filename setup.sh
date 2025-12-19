@@ -145,6 +145,7 @@ CASKS=(
     "notion"
     "postgres-unofficial"
     "rectangle"
+    "slack"
     "tableplus"
     "tor-browser"
     "visual-studio-code"

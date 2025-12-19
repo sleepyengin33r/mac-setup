@@ -40,3 +40,4 @@ cask "rectangle"
 
 # Communication
 cask "discord"
+cask "slack"

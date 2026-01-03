@@ -13,6 +13,7 @@ brew "yarn"
 brew "zsh-autosuggestions"    # Fish-like autosuggestions for zsh
 brew "zsh-syntax-highlighting" # Syntax highlighting for zsh commands
 brew "commitizen"              # Conventional commit messages
+brew "redis"                   # In-memory data structure store
 
 # ============================================================================
 # GUI Applications
@@ -28,7 +29,7 @@ cask "visual-studio-code"
 # Development Tools
 cask "docker"    # Docker Desktop (includes engine + GUI)
 cask "ghostty"   # Modern GPU-accelerated terminal
-cask "insomnia"  # API client
+cask "postman"  # API client
 cask "postgres-unofficial"  # Postgres.app (GUI for PostgreSQL)
 cask "tableplus" # Database GUI
 

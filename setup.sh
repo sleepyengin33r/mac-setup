@@ -104,6 +104,7 @@ FORMULAE=(
     "commitizen"
     "git"
     "nvm"
+    "redis"
     "uv"
     "wget"
     "yarn"
@@ -141,7 +142,7 @@ CASKS=(
     "flux"
     "ghostty"
     "google-chrome"
-    "insomnia"
+    "postman"
     "notion"
     "postgres-unofficial"
     "rectangle"
@@ -153,7 +154,18 @@ CASKS=(
 
 print_info "Installing cask applications..."
 for cask in "${CASKS[@]}"; do
+    # Check if cask is installed via Homebrew
+    INSTALLED_VIA_BREW=0
     if brew list --cask 2>/dev/null | grep -q "^${cask}$"; then
+        INSTALLED_VIA_BREW=1
+    fi
+
+    # Special check for Docker Desktop (can be installed manually)
+    if [ "$cask" = "docker" ] && [ -d "/Applications/Docker.app" ]; then
+        INSTALLED_VIA_BREW=1
+    fi
+
+    if [ "$INSTALLED_VIA_BREW" -eq 1 ]; then
         print_success "Already installed: $cask"
         ((PACKAGES_SKIPPED++))
     else

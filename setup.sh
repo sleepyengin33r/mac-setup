@@ -104,6 +104,7 @@ FORMULAE=(
     "commitizen"
     "git"
     "nvm"
+    "pnpm"
     "redis"
     "uv"
     "wget"

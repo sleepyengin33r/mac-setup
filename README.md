@@ -19,7 +19,7 @@ chmod +x setup.sh
 
 ## 📦 Packages
 
-**🔧 CLI:** git, nvm, redis, uv, wget, yarn, zsh-autosuggestions, zsh-syntax-highlighting, commitizen
+**🔧 CLI:** git, nvm, pnpm, redis, uv, wget, yarn, zsh-autosuggestions, zsh-syntax-highlighting, commitizen
 
 **🖥️ Apps:** Chrome, Tor Browser, Cursor, VS Code, Docker, Ghostty, Postman, Postgres.app, TablePlus, Caffeine, Flux, Notion, Rectangle, Discord, Slack
 

@@ -7,6 +7,7 @@
 brew "docker-completion"  # Shell autocomplete for Docker commands
 brew "git"
 brew "nvm"
+brew "pnpm"                    # Fast, disk space efficient package manager
 brew "uv"
 brew "wget"
 brew "yarn"
